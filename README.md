@@ -3,4 +3,4 @@ This repository contains our COMP-1815 JVM programming languages coursework and 
 
 
 ### Potential libraries 
-1. [Gannt Graph Library](http://www.java2s.com/Code/Java/Chart/JFreeChartGanttDemo1.html)
+1. [Gannt Graph Library](http://www.java2s.com/Code/Java/Chart/JFreeChartGanttDemo1.htm)
