@@ -1,136 +1,141 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
 
 public class GUI {
-    public static void createAndShowGUI() {
+    public GUI() {
+        ArrayList<String> listOfTeams = new ArrayList<>();
+        AllTeams allTeams = new AllTeams();
+        // Main JFrame
         JFrame frame = new JFrame("Coursework");
-        JPanel pnl = new JPanel(new MigLayout());
-        JPanel pnl2 = new JPanel(new MigLayout());
-        JPanel pnl3 = new JPanel(new MigLayout());
-        JPanel pnl4 = new JPanel(new MigLayout());
-        MenuBar appMenu = new MenuBar();
-        Tasks tsk = new Tasks();
-        Teams teams = new Teams();
-        Projects projects = new Projects();
+
+        // Main JPanel
+        JPanel panel1 = new JPanel(new MigLayout());
+
+        JPanel taskPanel = new JPanel(new MigLayout());
+        taskPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder("Add tasks")));
+
+        JPanel teamPanel = new JPanel(new MigLayout());
+        teamPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createTitledBorder("Add teams")));
 
 
-        // Setting up JMenu
-        appMenu.menuBar.add(appMenu.menu);
-        appMenu.menu.add(appMenu.exit);
-        frame.setJMenuBar(appMenu.menuBar);
-        // Enter app closes when exid button is closed
-        appMenu.exit.addActionListener(new ActionListener() {
+        // Task JLabels
+        JLabel taskName = new JLabel("Task name");
+        JLabel taskTeam = new JLabel("Team");
+        JLabel taskPredecessor = new JLabel("Predecessor");
+        JLabel taskDuration = new JLabel("Duration in hours");
+
+        // Task TextFields
+        JTextField taskNameField = new JTextField();
+        taskNameField.setPreferredSize(new Dimension(200, 24));
+        JTextField taskTeamField = new JTextField();
+        taskTeamField.setPreferredSize(new Dimension(200, 24));
+
+        Object[] items;
+        JComboBox teamLists = new JComboBox();
+
+        JTextField taskPredecessorField = new JTextField();
+        taskPredecessorField.setPreferredSize(new Dimension(200, 24));
+        JTextField taskDurationField = new JTextField();
+        taskDurationField.setPreferredSize(new Dimension(200, 24));
+
+
+        // Team JLabels
+        JLabel teamName = new JLabel("Team name");
+        JLabel teamDepartment = new JLabel("Department");
+
+        // Team TextFields
+        JTextField teamNameField = new JTextField();
+        teamNameField.setPreferredSize(new Dimension(200, 24));
+        JTextField teamDepartmentField = new JTextField();
+        teamDepartmentField.setPreferredSize(new Dimension(200, 24));
+
+
+
+        // JTable
+        JTable table = new JTable();
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+
+        table.setBounds(70,70, 500, 1000);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setRowSelectionAllowed(true);
+
+        model.addColumn("Task name");
+        model.addColumn("Team");
+        model.addColumn("Task Predecessor");
+        model.addColumn("Duration in hours");
+
+
+        // Task Buttons
+        JButton addTask = new JButton("Add task");
+        addTask.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+               model.addRow(new Object[]{
+                       taskNameField.getText(),
+                       teamNameField.getText(),
+                       taskPredecessorField.getText(),
+                       taskDurationField.getText()
+               });
+                        taskNameField.setText("");
+                        taskTeamField.setText("");
+                        taskPredecessorField.setText("");
+                        taskDurationField.setText("");
+
+                        teamNameField.setText("");
+                        teamDepartmentField.setText("");
             }
         });
 
-        // Setting up Team Labels
-        TeamLabel currentTeam = new TeamLabel();
-        TeamLabel teamLabel  = new TeamLabel();
-        pnl.add(currentTeam.currentTeam, "split");
-        pnl.add(teamLabel.teamLabel, "wrap");
-
-
-        // Setting up JTable
-        Table table = new Table();
-        //model = new DefaultTableModel(table.clm.getColumn(), table.columnName);
-        table.tbl.setBounds(50, 50, 500, 1000);
-        table.tbl.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.tbl.setRowSelectionAllowed(true);
-        pnl2.add(new JScrollPane(table.tbl));
-        pnl2.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(), "Done"));
-
-
-        // Setting up JTable
-        Table table2 = new Table();
-        table2.tbl.setBounds(50, 50, 500, 1000);
-        table2.tbl.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table2.tbl.setRowSelectionAllowed(true);
-        pnl3.add(new JScrollPane(table2.tb2));
-        pnl3.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(), "Doing"));
-
-        // Setting up JTable
-        Table table3 = new Table();
-        table3.tbl.setBounds(50, 50, 500, 1000);
-        table3.tbl.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table3.tbl.setRowSelectionAllowed(true);
-        pnl4.add(new JScrollPane(table3.tbl));
-        pnl4.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(), "To Do"));
-
-
-        // Setting up Buttons
-        JButton newTaskButton = new JButton("Add new task");
-        newTaskButton.addActionListener(new ActionListener() {
+        // Team Button
+        JButton addTeamButton = new JButton("Add team");
+        addTeamButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tsk.createAndShowTasksWindow();
-            }
-        });
-        pnl.add(newTaskButton);
-
-        JButton newTeamButton = new JButton("Add new team");
-        newTeamButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                teams.createAndShowTeamWindow();
+                teamLists.addItem(teamNameField.getText());
             }
         });
 
-        pnl.add(newTeamButton, "wrap");
-
-
-        JButton projectButton = new JButton("Create or Remove Projects");
-        projectButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                projects.createAndShowProjectWindow();
-            }
-        });
-        pnl.add(projectButton);
-
-
-        JButton deleteTaskButton = new JButton("Delete");
-        deleteTaskButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        pnl.add(deleteTaskButton);
-
-
-        JButton clearSelectionButton = new JButton("Clear task selection");
-        clearSelectionButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                table.tbl.clearSelection();
-                table2.tb2.clearSelection();
-                table3.tbl.clearSelection();
-            }
-        });
-        pnl.add(clearSelectionButton, "wrap");
 
 
 
-        // Adding table panels to main panel
-        pnl.add(pnl2);
-        pnl.add(pnl3);
-        pnl.add(pnl4);
 
+
+        // Adding Task components to panel
+        teamPanel.add(teamName, "span");
+        teamPanel.add(teamNameField, "span");
+        teamPanel.add(teamDepartment, "span");
+        teamPanel.add(teamDepartmentField, "span");
+        teamPanel.add(addTeamButton, "span");
+
+        panel1.add(new JScrollPane(table));
+
+        taskPanel.add(taskName, "span");
+        taskPanel.add(taskNameField, "span");
+        taskPanel.add(taskTeam, "span");
+        taskPanel.add(teamLists, "span");
+        taskPanel.add(taskPredecessor, "span");
+        taskPanel.add(taskPredecessorField, "span");
+        taskPanel.add(taskDuration, "span");
+        taskPanel.add(taskDurationField, "span");
+        taskPanel.add(addTask, "span");
+
+
+
+        // Adding components to Main Panel
+        panel1.add(teamPanel);
+        panel1.add(taskPanel);
 
 
         // Setting up JPanel
-        frame.add(pnl);
+        frame.add(panel1);
+
         // Setting up frame size, closing behaviour and visibility
         frame.setSize(new Dimension(1920, 1080));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -142,7 +147,7 @@ public class GUI {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                createAndShowGUI();
+                GUI gui = new GUI();
             }
         });
     }
