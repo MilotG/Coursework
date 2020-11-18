@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import net.miginfocom.swing.MigLayout;
 
 public class GUI {
+    static String returnName;
     public GUI() {
         ArrayList<String> listOfTeams = new ArrayList<>();
         AllTeams allTeams = new AllTeams();
@@ -88,8 +89,10 @@ public class GUI {
                         taskPredecessorField.setText("");
                         taskDurationField.setText("");
 
+
                         teamNameField.setText("");
                         teamDepartmentField.setText("");
+
             }
         });
 
@@ -99,11 +102,15 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 teamLists.addItem(teamNameField.getText());
+                listOfTeams.add(teamNameField.getText());
+                allTeams.setCurrentActiveTeams(listOfTeams);
+
+                returnName = taskNameField.getText();
+                System.out.println(allTeams.getCurrentActiveTeams());
+                System.out.println(returnName);
+
             }
         });
-
-
-
 
 
 
@@ -115,6 +122,7 @@ public class GUI {
         teamPanel.add(addTeamButton, "span");
 
         panel1.add(new JScrollPane(table));
+
 
         taskPanel.add(taskName, "span");
         taskPanel.add(taskNameField, "span");
@@ -152,3 +160,4 @@ public class GUI {
         });
     }
 }
+
