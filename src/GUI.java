@@ -1,16 +1,18 @@
+import net.miginfocom.swing.MigLayout;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
-import net.miginfocom.swing.MigLayout;
 
 public class GUI {
     static String returnName;
+
     public GUI() {
         ArrayList<String> listOfTeams = new ArrayList<>();
+        ArrayList<TaskKotlin> listOfTasks = new ArrayList<>();
         AllTeams allTeams = new AllTeams();
         // Main JFrame
         JFrame frame = new JFrame("Coursework");
@@ -57,13 +59,12 @@ public class GUI {
         teamDepartmentField.setPreferredSize(new Dimension(200, 24));
 
 
-
         // JTable
         JTable table = new JTable();
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
 
-        table.setBounds(70,70, 500, 1000);
+        table.setBounds(70, 70, 1000, 1000);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setRowSelectionAllowed(true);
 
@@ -78,20 +79,38 @@ public class GUI {
         addTask.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               model.addRow(new Object[]{
-                       taskNameField.getText(),
-                       teamNameField.getText(),
-                       taskPredecessorField.getText(),
-                       taskDurationField.getText()
-               });
-                        taskNameField.setText("");
-                        taskTeamField.setText("");
-                        taskPredecessorField.setText("");
-                        taskDurationField.setText("");
+                TeamKotlin teamKotlin = new TeamKotlin(teamNameField.getText());
+                TaskKotlin taskKotlin = new TaskKotlin(taskNameField.getText(), teamKotlin, taskPredecessorField.getText(), taskDurationField.getText());
+                AllTasks allTasks = new AllTasks();
+                listOfTasks.add(taskKotlin);
+                allTasks.setCurrentActiveTasks(listOfTasks);
+                System.out.println(allTasks.getCurrentActiveTasks());
 
 
-                        teamNameField.setText("");
-                        teamDepartmentField.setText("");
+                for (int i = 0; i < allTasks.getCurrentActiveTasks().size(); i++) {
+                    System.out.println(allTasks.getCurrentActiveTasks().get(i).component1());
+
+
+                    model.addRow(new Object[]{
+
+                            allTasks.getCurrentActiveTasks().get(i).component1()
+                            //taskNameField.getText(),
+                            /*
+                            teamNameField.getText(),
+                            taskPredecessorField.getText(),
+                            taskDurationField.getText()
+                             */
+                    });
+
+                }
+                taskNameField.setText("");
+                taskTeamField.setText("");
+                taskPredecessorField.setText("");
+                taskDurationField.setText("");
+
+
+                teamNameField.setText("");
+                teamDepartmentField.setText("");
 
             }
         });
@@ -106,12 +125,9 @@ public class GUI {
                 allTeams.setCurrentActiveTeams(listOfTeams);
 
                 returnName = taskNameField.getText();
-                System.out.println(allTeams.getCurrentActiveTeams());
-                System.out.println(returnName);
 
             }
         });
-
 
 
         // Adding Task components to panel
@@ -133,7 +149,6 @@ public class GUI {
         taskPanel.add(taskDuration, "span");
         taskPanel.add(taskDurationField, "span");
         taskPanel.add(addTask, "span");
-
 
 
         // Adding components to Main Panel
