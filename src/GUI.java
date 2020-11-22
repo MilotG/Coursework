@@ -79,30 +79,18 @@ public class GUI {
         addTask.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TeamKotlin teamKotlin = new TeamKotlin(teamNameField.getText());
-                TaskKotlin taskKotlin = new TaskKotlin(taskNameField.getText(), teamKotlin, taskPredecessorField.getText(), taskDurationField.getText());
-                AllTasks allTasks = new AllTasks();
-                listOfTasks.add(taskKotlin);
-                allTasks.setCurrentActiveTasks(listOfTasks);
-                System.out.println(allTasks.getCurrentActiveTasks());
+                RandomNumber randomNumber = new RandomNumber();
+                TaskKotlin tasks = new TaskKotlin(randomNumber.getRandomNumber(), taskNameField.getText(), taskTeamField.getText(), taskPredecessorField.getText(), taskDurationField.getText());
+                listOfTasks.add(tasks);
+                model.addRow(new Object[]{
 
+                        taskNameField.getText(),
 
-                for (int i = 0; i < allTasks.getCurrentActiveTasks().size(); i++) {
-                    System.out.println(allTasks.getCurrentActiveTasks().get(i).component1());
+                        teamNameField.getText(),
+                        taskPredecessorField.getText(),
+                        taskDurationField.getText()
 
-
-                    model.addRow(new Object[]{
-
-                            allTasks.getCurrentActiveTasks().get(i).component1()
-                            //taskNameField.getText(),
-                            /*
-                            teamNameField.getText(),
-                            taskPredecessorField.getText(),
-                            taskDurationField.getText()
-                             */
-                    });
-
-                }
+                });
                 taskNameField.setText("");
                 taskTeamField.setText("");
                 taskPredecessorField.setText("");
@@ -123,7 +111,6 @@ public class GUI {
                 teamLists.addItem(teamNameField.getText());
                 listOfTeams.add(teamNameField.getText());
                 allTeams.setCurrentActiveTeams(listOfTeams);
-
                 returnName = taskNameField.getText();
 
             }
@@ -170,7 +157,8 @@ public class GUI {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                GUI gui = new GUI();
+
+               GUI gui = new GUI();
             }
         });
     }
