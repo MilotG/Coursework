@@ -9,6 +9,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="KotlinJavaRuntime" level="project" />
     <orderEntry type="library" exported="" name="scala-sdk-2.13.3" level="application" />
-    <orderEntry type="library" exported="" name="miglayout-3.5" level="project" />
+    <orderEntry type="library" name="miglayout-3.5.5" level="project" />
   </component>
 </module>
