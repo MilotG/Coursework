@@ -1,12 +1,14 @@
 import java.io.*
 import java.io.File
 import java.io.InputStream
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardOpenOption
 
 fun main() {
     var ok  = AllTasks()
-    var rndnmbr = RandomNumber()
     print(ok.currentActiveTasks)
-    println(rndnmbr.randomNumber)
+
 }
 
 class AllTeams {
@@ -16,7 +18,6 @@ class AllTeams {
 
 class AllTasks {
     var currentActiveTasks = ArrayList<String>()
-
 }
 
 data class TaskKotlin(var id: Int?, var name: String, var team: String, var predecessor: String, var duration: String) {
@@ -36,15 +37,10 @@ class RandomNumber {
 }
 
 
-class  Testing {
-
-
-    val inputStream: InputStream = File("/Users/yunisfarah/Downloads/Coursework/src/text.txt").inputStream()
-    val inputString = inputStream.bufferedReader().use { it.readText() }
-    var someString: String? = null
-    fun setsomeString(text: String): String? {
-        someString = text
-        return someString
+class Testing() {
+    fun runTest(testObject: ArrayList<TaskKotlin>) {
+       for (item in testObject) {
+        File("test.txt").appendText("${item}\n")
+       }
     }
-    var finalValue = File("/Users/yunisfarah/Downloads/Coursework/src/text.txt").writeText("${someString}")
 }

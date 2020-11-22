@@ -5,7 +5,10 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GUI {
     static String returnName;
@@ -68,6 +71,7 @@ public class GUI {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setRowSelectionAllowed(true);
 
+        model.addColumn("ID");
         model.addColumn("Task name");
         model.addColumn("Team");
         model.addColumn("Task Predecessor");
@@ -80,12 +84,19 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 RandomNumber randomNumber = new RandomNumber();
-                TaskKotlin tasks = new TaskKotlin(randomNumber.getRandomNumber(), taskNameField.getText(), taskTeamField.getText(), taskPredecessorField.getText(), taskDurationField.getText());
+                Random rand = new Random();
+                TaskKotlin tasks = new TaskKotlin(rand.nextInt(100), taskNameField.getText(), taskTeamField.getText(), taskPredecessorField.getText(), taskDurationField.getText());
                 listOfTasks.add(tasks);
+                System.out.println(listOfTasks);
+
+                Testing testing = new Testing();
+                testing.runTest(listOfTasks);
+
+
                 model.addRow(new Object[]{
 
-                        taskNameField.getText(),
 
+                        taskNameField.getText(),
                         teamNameField.getText(),
                         taskPredecessorField.getText(),
                         taskDurationField.getText()
