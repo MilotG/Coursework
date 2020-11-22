@@ -9,8 +9,9 @@ import java.util.ArrayList;
 
 public class GUI {
     static String returnName;
-
+    String Ralph ="Ralph";
     public GUI() {
+
         ArrayList<String> listOfTeams = new ArrayList<>();
         ArrayList<TaskKotlin> listOfTasks = new ArrayList<>();
         AllTeams allTeams = new AllTeams();
