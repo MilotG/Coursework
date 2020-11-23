@@ -24,19 +24,7 @@ data class TaskKotlin(var id: Int?, var name: String, var team: String, var pred
 
 }
 
-/*
-data class TeamKotlin(var name: String){
-
-}
-
- */
-
-
-class RandomNumber {
-    val randomNumber = (0..1000).random()
-}
-
-
+// This class and its function takes a task object and appends its parameter input to test.txt file.
 class Testing() {
     fun runTest(item: TaskKotlin) {
         File("test.txt").appendText("${item.id},${item.name},${item.team},${item.predecessor},${item.duration}\n")

@@ -87,38 +87,16 @@ public class GUI {
         addTask.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RandomNumber randomNumber = new RandomNumber();
+                // Generates a random number with the bound set to 100 on line 94
                 Random rand = new Random();
 
+                // Creating a task object and passing user input from text fields into object parameters
                 TaskKotlin tasks = new TaskKotlin(rand.nextInt(100), taskNameField.getText(), teamLists.getSelectedItem().toString(), taskPredecessorField.getText(), taskDurationField.getText());
                 listOfTasks.add(tasks);
 
                 Testing testing = new Testing();
                 testing.runTest(tasks);
 
-
-                    //String content = new String(Files.readAllBytes(Paths.get("test.txt")));
-                    //System.out.println(content);
-
-                String filePath = "/Users/yunisfarah/Downloads/Coursework/test.txt";
-                File file = new File(filePath);
-
-                    try {
-                        InputStream in;
-                        BufferedReader br = new BufferedReader(new FileReader(file));
-                        String firstLine = br.readLine().trim();
-                        Object[] tableLines = br.lines().toArray();
-
-                        for (int i = 0; i < tableLines.length; i++) {
-                            String line = tableLines[i].toString().trim();
-                            String[] dataRow = line.split(",");
-                            model.addRow(dataRow);
-                        }
-
-
-                    } catch (Exception ex) {
-
-                    }
 
 
 
@@ -135,13 +113,17 @@ public class GUI {
         });
 
 
-        JButton reloadTable = new JButton("Reload Table");
-        reloadTable.addActionListener(new ActionListener() {
+         /*
+           This looks for test.txt file on the local machine, once found the for loops reads its contents and splits its based on the location
+            of ",". Finally it is added to the JTable.
+         */
+        JButton loadTable = new JButton("Load Table");
+        loadTable.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String filePath = "/Users/yunisfarah/Downloads/Coursework/test.txt";
                 File file = new File(filePath);
-
+                model.setRowCount(0);
                 try {
                     InputStream in;
                     BufferedReader br = new BufferedReader(new FileReader(file));
@@ -156,11 +138,12 @@ public class GUI {
 
 
                 } catch (Exception ex) {
-
+                    JOptionPane.showMessageDialog(null, "Please make sure a test.txt file in present the project folder");
                 }
+
+
             }
         });
-
 
 
         // Team Button
@@ -168,6 +151,7 @@ public class GUI {
         addTeamButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // If a team name has not been supplied on add team button is pressed (as in team name text field is empty) a message box is shown
                 if (teamNameField.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Please select or enter a team");
                 } else {
@@ -180,6 +164,7 @@ public class GUI {
         });
 
 
+
         // Adding Task components to panel
         teamPanel.add(teamName, "span");
         teamPanel.add(teamNameField, "span");
@@ -188,7 +173,7 @@ public class GUI {
         teamPanel.add(addTeamButton, "span");
 
         panel1.add(new JScrollPane(table));
-        panel1.add(reloadTable);
+        panel1.add(loadTable);
 
 
         taskPanel.add(taskName, "span");
