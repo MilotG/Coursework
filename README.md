@@ -8,4 +8,5 @@ This repository contains our COMP-1815 JVM programming languages coursework and 
 - [ ] Create entity classes
 
 ### Demo UI
-![Screenshot 2020-11-23 at 13 04 18](https://user-images.githubusercontent.com/64978825/99968229-cb0b7b80-2d90-11eb-9636-8bf56c397efa.png)
+<img width="1210" alt="Screenshot 2020-11-23 at 13 36 29" src="https://user-images.githubusercontent.com/64978825/99968338-ebd3d100-2d90-11eb-9819-5b65c042afdf.png">
+
