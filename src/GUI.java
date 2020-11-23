@@ -6,8 +6,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.StringTokenizer;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GUI {
@@ -86,23 +89,39 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 RandomNumber randomNumber = new RandomNumber();
                 Random rand = new Random();
-                TaskKotlin tasks = new TaskKotlin(rand.nextInt(100), taskNameField.getText(), taskTeamField.getText(), taskPredecessorField.getText(), taskDurationField.getText());
+
+                TaskKotlin tasks = new TaskKotlin(rand.nextInt(100), taskNameField.getText(), teamLists.getSelectedItem().toString(), taskPredecessorField.getText(), taskDurationField.getText());
                 listOfTasks.add(tasks);
-                System.out.println(listOfTasks);
 
                 Testing testing = new Testing();
-                testing.runTest(listOfTasks);
+                testing.runTest(tasks);
 
 
-                model.addRow(new Object[]{
+                    //String content = new String(Files.readAllBytes(Paths.get("test.txt")));
+                    //System.out.println(content);
+
+                String filePath = "/Users/yunisfarah/Downloads/Coursework/test.txt";
+                File file = new File(filePath);
+
+                    try {
+                        InputStream in;
+                        BufferedReader br = new BufferedReader(new FileReader(file));
+                        String firstLine = br.readLine().trim();
+                        Object[] tableLines = br.lines().toArray();
+
+                        for (int i = 0; i < tableLines.length; i++) {
+                            String line = tableLines[i].toString().trim();
+                            String[] dataRow = line.split(",");
+                            model.addRow(dataRow);
+                        }
 
 
-                        taskNameField.getText(),
-                        teamNameField.getText(),
-                        taskPredecessorField.getText(),
-                        taskDurationField.getText()
+                    } catch (Exception ex) {
 
-                });
+                    }
+
+
+
                 taskNameField.setText("");
                 taskTeamField.setText("");
                 taskPredecessorField.setText("");
@@ -115,16 +134,48 @@ public class GUI {
             }
         });
 
+
+        JButton reloadTable = new JButton("Reload Table");
+        reloadTable.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String filePath = "/Users/yunisfarah/Downloads/Coursework/test.txt";
+                File file = new File(filePath);
+
+                try {
+                    InputStream in;
+                    BufferedReader br = new BufferedReader(new FileReader(file));
+                    String firstLine = br.readLine().trim();
+                    Object[] tableLines = br.lines().toArray();
+
+                    for (int i = 0; i < tableLines.length; i++) {
+                        String line = tableLines[i].toString().trim();
+                        String[] dataRow = line.split(",");
+                        model.addRow(dataRow);
+                    }
+
+
+                } catch (Exception ex) {
+
+                }
+            }
+        });
+
+
+
         // Team Button
         JButton addTeamButton = new JButton("Add team");
         addTeamButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                teamLists.addItem(teamNameField.getText());
-                listOfTeams.add(teamNameField.getText());
-                allTeams.setCurrentActiveTeams(listOfTeams);
-                returnName = taskNameField.getText();
-
+                if (teamNameField.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Please select or enter a team");
+                } else {
+                    teamLists.addItem(teamNameField.getText());
+                    listOfTeams.add(teamNameField.getText());
+                    allTeams.setCurrentActiveTeams(listOfTeams);
+                    returnName = taskNameField.getText();
+                }
             }
         });
 
@@ -137,6 +188,7 @@ public class GUI {
         teamPanel.add(addTeamButton, "span");
 
         panel1.add(new JScrollPane(table));
+        panel1.add(reloadTable);
 
 
         taskPanel.add(taskName, "span");

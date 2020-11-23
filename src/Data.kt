@@ -38,9 +38,7 @@ class RandomNumber {
 
 
 class Testing() {
-    fun runTest(testObject: ArrayList<TaskKotlin>) {
-       for (item in testObject) {
-        File("test.txt").appendText("${item}\n")
-       }
+    fun runTest(item: TaskKotlin) {
+        File("test.txt").appendText("${item.id},${item.name},${item.team},${item.predecessor},${item.duration}\n")
     }
 }
