@@ -123,7 +123,10 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 String filePath = "/Users/yunisfarah/Downloads/Coursework/test.txt";
                 File file = new File(filePath);
+
+                // This clears the table, removing pre-existing data from the UI
                 model.setRowCount(0);
+
                 try {
                     InputStream in;
                     BufferedReader br = new BufferedReader(new FileReader(file));
@@ -138,7 +141,7 @@ public class GUI {
 
 
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Please make sure a test.txt file in present the project folder");
+                    JOptionPane.showMessageDialog(null, "Please make sure test.txt file is present the project folder");
                 }
 
 
